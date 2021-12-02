@@ -39,6 +39,7 @@
     "camelcase": "off",
     "no-debugger": "off",
     "no-shadow": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-return-assign": "off"
   }
 }

@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Navigation from './components/Navigation';
 import Subredits from './components/Subredits';
-import Subreddit from './views/Subredit';
+import Subreddit from './view/Subredit';
 
 const App = () => {
   const [state, setState] = useState({
@@ -20,7 +20,7 @@ const App = () => {
           <Subredits />
         </Route>
         <Route path="/r/:subredditName">
-          <Subreddit />
+          <Subreddit state={state} />
         </Route>
       </Switch>
     </BrowserRouter>

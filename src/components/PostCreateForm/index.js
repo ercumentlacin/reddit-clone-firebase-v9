@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { actions } from '../../config/firebaseApp';
 
-const PostCreateForm = ({ subredditName }) => {
+const PostCreateForm = ({ subredditName, user }) => {
   const onFinish = async (values) => {
     const { title, description, image } = values;
     actions.firebaseAddPost('posts', {
@@ -13,6 +13,12 @@ const PostCreateForm = ({ subredditName }) => {
       description: description || '',
       image: image || '',
       subredditName,
+      author: {
+        name: user.displayName,
+        id: user.uid,
+        avatar: user.photoURL,
+        email: user.email,
+      },
     });
   };
 
@@ -90,6 +96,12 @@ const PostCreateForm = ({ subredditName }) => {
 
 PostCreateForm.propTypes = {
   subredditName: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    displayName: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
+    email: PropTypes.string,
+    photoURL: PropTypes.string,
+  }).isRequired,
 };
 
 export default PostCreateForm;
