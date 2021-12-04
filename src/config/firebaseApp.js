@@ -2,6 +2,8 @@ import { initializeApp } from 'firebase/app';
 import {
   getAuth,
   GoogleAuthProvider,
+  inMemoryPersistence,
+  setPersistence,
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
@@ -11,6 +13,7 @@ import {
   doc,
   getDocs,
   getFirestore,
+  orderBy,
   query,
   setDoc,
   Timestamp,
@@ -30,16 +33,16 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
-const provider = new GoogleAuthProvider();
 const auth = getAuth(firebaseApp);
 
 const db = getFirestore(firebaseApp);
 
 const actions = {
+  // eslint-disable-next-line consistent-return
   async firebaseSigin() {
     let profile = {};
-    try {
-      const response = await signInWithPopup(auth, provider);
+
+    function makeUserProfile(response) {
       const credential = GoogleAuthProvider.credentialFromResult(response);
       const token = credential.accessToken;
       const { user } = response;
@@ -55,13 +58,45 @@ const actions = {
           token,
         },
       };
-    } catch (error) {
-      profile = {
-        isLoggedIn: false,
-        error,
-      };
     }
+
+    await setPersistence(auth, inMemoryPersistence)
+      .then(async () => {
+        const provider = new GoogleAuthProvider();
+        // In memory persistence will be applied to the signed in Google user
+        // even though the persistence was set to 'none' and a page redirect
+        // occurred.
+        const response = await signInWithPopup(auth, provider);
+        makeUserProfile(response);
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(errorCode, errorMessage);
+      });
+
+    localStorage.setItem('user', JSON.stringify(profile));
+
     return profile;
+
+    /* 
+    
+      else {
+      try {
+        const response = await signInWithPopup(auth, provider);
+        localStorage.setItem('token', JSON.stringify(response));
+        makeUserProfile(response);
+      } catch (error) {
+        profile = {
+          isLoggedIn: false,
+          error,
+        };
+      }
+      return profile;
+    }
+
+    */
   },
   firebaseLogout() {
     signOut(auth)
@@ -116,10 +151,11 @@ const getters = {
     try {
       const q = query(
         collection(db, 'posts'),
-        where('subredditName', '==', subredditName)
+        where('subredditName', '==', subredditName),
+        orderBy('createdAt', 'desc')
       );
-      const querySnapshot = await getDocs(q);
 
+      const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         posts.push({
           ...doc.data(),
