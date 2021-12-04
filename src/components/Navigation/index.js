@@ -1,5 +1,7 @@
+import './navigation.less';
+
 import { ExportOutlined, HomeOutlined } from '@ant-design/icons';
-import { Button, Col, Menu, Row } from 'antd';
+import { Avatar, Button, Col, Menu, Row } from 'antd';
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -10,7 +12,7 @@ const { firebaseLogout, firebaseSigin } = firebaseAction;
 
 const Navigation = ({ state, setState }) => {
   const history = useHistory();
-  const { current_menu, isLoggedIn } = state;
+  const { current_menu, isLoggedIn, user } = state;
   const mounted = useRef(true);
 
   const handleClick = (e) => {
@@ -49,7 +51,11 @@ const Navigation = ({ state, setState }) => {
       align="middle"
       style={{ backgroundColor: '#001529', overflowX: 'auto' }}
     >
-      <Col xs={{ span: 18, offset: 0 }} lg={{ span: 18, offset: 3 }}>
+      <Col
+        className="top-menu"
+        xs={{ span: 22, offset: 1 }}
+        lg={{ span: 18, offset: 3 }}
+      >
         <Menu
           onClick={handleClick}
           selectedKeys={[current_menu]}
@@ -60,14 +66,20 @@ const Navigation = ({ state, setState }) => {
             Subreddits
           </Menu.Item>
         </Menu>
-      </Col>
-      <Col span={3}>
-        <Button
-          type="primary"
-          onClick={isLoggedIn ? handleLogout : handleLogin}
-        >
-          <ExportOutlined /> <span> {isLoggedIn ? 'Logout' : 'Login'} </span>
-        </Button>
+        <div className="right">
+          {user && (
+            <div className="user">
+              <Avatar src={user.photoURL} />
+              <span style={{ color: '#fff' }}>{user.displayName}</span>
+            </div>
+          )}
+          <Button
+            type="primary"
+            onClick={isLoggedIn ? handleLogout : handleLogin}
+          >
+            <ExportOutlined /> <span> {isLoggedIn ? 'Logout' : 'Login'} </span>
+          </Button>
+        </div>
       </Col>
     </Row>
   );
@@ -77,6 +89,13 @@ Navigation.propTypes = {
   state: PropTypes.shape({
     current_menu: PropTypes.string,
     isLoggedIn: PropTypes.bool,
+    user: PropTypes.shape({
+      displayName: PropTypes.string,
+      email: PropTypes.string,
+      photoURL: PropTypes.string,
+      uid: PropTypes.string,
+      token: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   setState: PropTypes.func.isRequired,
 };

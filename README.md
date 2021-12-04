@@ -22,8 +22,8 @@
 - [x] Format Dates
 - [x] Add craco
 - [x] Add less
-- [ ] Show Usernames
-- [ ] Show User Images
+- [x] Show Usernames
+- [x] Show User Images
 - [ ] Search/Filter Posts
 - [ ] UpVote/DownVote Posts
   - [x] Order by created

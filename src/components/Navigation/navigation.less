@@ -1,0 +1,42 @@
+.top-menu {
+  display: flex;
+  width: 100%;
+  align-items: center;
+
+  > ul {
+    flex: 1;
+  }
+
+  > .right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+
+    .user {
+      margin-right: 1rem;
+
+      .ant-avatar {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-inline: 4vw;
+
+    > ul {
+      margin-bottom: 1rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    > .right {
+      margin-left: 0;
+      margin-left: 20px;
+      padding-bottom: 1rem;
+    }
+  }
+}
