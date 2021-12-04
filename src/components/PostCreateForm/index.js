@@ -4,10 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { actions } from '../../config/firebaseApp';
 
-const PostCreateForm = ({ subredditName, user }) => {
+const PostCreateForm = ({ subredditName, user, setIsShouldBeRender }) => {
   const onFinish = async (values) => {
     const { title, description, image } = values;
-    actions.firebaseAddPost('posts', {
+    await actions.firebaseAddPost('posts', {
       _id: subredditName + uuidv4(),
       title,
       description: description || '',
@@ -20,6 +20,7 @@ const PostCreateForm = ({ subredditName, user }) => {
         email: user.email,
       },
     });
+    setIsShouldBeRender(true);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -102,6 +103,7 @@ PostCreateForm.propTypes = {
     email: PropTypes.string,
     photoURL: PropTypes.string,
   }).isRequired,
+  setIsShouldBeRender: PropTypes.func.isRequired,
 };
 
 export default PostCreateForm;
