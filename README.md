@@ -20,6 +20,8 @@
 
 - [x] Hide submit form if not logged in
 - [x] Format Dates
+- [x] Add craco
+- [x] Add less
 - [ ] Show Usernames
 - [ ] Show User Images
 - [ ] Search/Filter Posts
