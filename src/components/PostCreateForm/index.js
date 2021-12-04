@@ -42,11 +42,10 @@ const PostCreateForm = ({ subredditName, user, setIsShouldBeRender }) => {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
       wrapperCol={{
-        span: 14,
+        span: 18,
       }}
       labelCol={{
-        offset: 1,
-        span: 2,
+        span: 4,
       }}
       style={{ marginTop: '2rem' }}
     >

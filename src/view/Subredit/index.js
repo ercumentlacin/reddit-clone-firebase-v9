@@ -1,4 +1,5 @@
-import { Col, List, Row, Typography } from 'antd';
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
+import { Button, Col, List, Row, Typography } from 'antd';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -32,21 +33,32 @@ const Subreddit = ({ state }) => {
   return (
     <section>
       <Row>
-        <Col span={18} offset={3}>
+        <Col xs={{ span: 18, offset: 3 }}>
           <h1>{subredditName}</h1>
         </Col>
       </Row>
       {isLoggedIn && (
         <>
           <Row>
-            <Col span={18} offset={3}>
-              <button type="button" onClick={onPostToggle}>
+            <Col xs={{ span: 18, offset: 3 }}>
+              <Button
+                size="middle"
+                onClick={onPostToggle}
+                type="primary"
+                icon={
+                  isPostCreateShow ? <CaretDownOutlined /> : <CaretUpOutlined />
+                }
+              >
                 {isPostCreateShow ? 'Hide' : 'Create'}
-              </button>
+              </Button>
             </Col>
           </Row>
           <Row>
-            <Col span={18} offset={3}>
+            <Col
+              xs={{ span: 24, offset: 0 }}
+              lg={{ span: 18, offset: 3 }}
+              style={{ paddingInline: '4vw' }}
+            >
               {isPostCreateShow && (
                 <PostCreateForm
                   subredditName={subredditName}
@@ -60,12 +72,16 @@ const Subreddit = ({ state }) => {
         </>
       )}
       <Row>
-        <Col span={18} offset={3}>
+        <Col xs={{ span: 24, offset: 0 }} lg={{ span: 18, offset: 3 }}>
           <List
             dataSource={posts}
             renderItem={(item) => (
               <Row key={item._id} className="post-row">
-                <Col span={18} offset={3} className="post-item">
+                <Col
+                  xs={{ span: 24, offset: 0 }}
+                  lg={{ span: 18, offset: 3 }}
+                  className="post-item"
+                >
                   <Text type="secondary">
                     Posted byu/{emailToNickname(item?.author?.email)}{' '}
                     <span className="post-time">
