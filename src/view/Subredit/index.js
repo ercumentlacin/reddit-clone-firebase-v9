@@ -1,10 +1,13 @@
-import { Card, Col, List, Row } from 'antd';
+import { Col, List, Row, Typography } from 'antd';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import PostCreateForm from '../../components/PostCreateForm';
 import { getters } from '../../config/firebaseApp';
+import { emailToNickname, timeDifference } from '../../helper';
+
+const { Paragraph, Text } = Typography;
 
 const Subreddit = ({ state }) => {
   const { isLoggedIn, user } = state;
@@ -52,31 +55,35 @@ const Subreddit = ({ state }) => {
       <Row>
         <Col span={18} offset={3}>
           <List
-            grid={{
-              gutter: 16,
-              xs: 1,
-              sm: 2,
-              md: 3,
-              lg: 4,
-              xl: 3,
-              xxl: 3,
-            }}
             dataSource={posts}
             renderItem={(item) => (
-              <List.Item key={item._id}>
-                <Card
-                  hoverable
-                  style={{ width: 240 }}
-                  cover={
-                    item.image ? <img alt="example" src={item.image} /> : null
-                  }
-                >
-                  <Card.Meta
-                    title={item.title}
-                    description={item.description}
-                  />
-                </Card>
-              </List.Item>
+              <Row key={item._id} className="post-row">
+                <Col span={18} offset={3} className="post-item">
+                  <Text type="secondary">
+                    Posted byu/{emailToNickname(item?.author?.email)}{' '}
+                    <span className="post-time">
+                      {timeDifference(item.createdAt)}
+                    </span>
+                  </Text>
+                  <br />
+                  <Text strong>{item.title}</Text>
+                  <Paragraph
+                    ellipsis={{
+                      rows: 2,
+                      expandable: true,
+                    }}
+                  >
+                    {item.description}
+                  </Paragraph>
+                  {!!item.image && (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="post-image"
+                    />
+                  )}
+                </Col>
+              </Row>
             )}
           />
         </Col>
