@@ -5,6 +5,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { actions } from '../../config/firebaseApp';
 
 const PostCreateForm = ({ subredditName, user, setIsShouldBeRender }) => {
+  const [form] = Form.useForm();
+
+  const onReset = () => {
+    form.resetFields();
+  };
+
   const onFinish = async (values) => {
     const { title, description, image } = values;
     await actions.firebaseAddPost('posts', {
@@ -21,6 +27,7 @@ const PostCreateForm = ({ subredditName, user, setIsShouldBeRender }) => {
       },
     });
     setIsShouldBeRender(true);
+    onReset();
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -30,6 +37,7 @@ const PostCreateForm = ({ subredditName, user, setIsShouldBeRender }) => {
   return (
     <Form
       name="basic"
+      form={form}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"

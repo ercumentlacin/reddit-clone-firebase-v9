@@ -22,6 +22,7 @@ const Subreddit = ({ state }) => {
   useEffect(() => {
     if (mounted.current || isShouldBeRender) {
       (async () => setPosts(await getters.getPosts(subredditName)))();
+      setIsShouldBeRender(false);
     }
     return () => (mounted.current = false);
   }, [subredditName, isShouldBeRender]);

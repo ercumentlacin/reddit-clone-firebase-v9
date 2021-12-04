@@ -15,6 +15,7 @@ import {
   getFirestore,
   orderBy,
   query,
+  serverTimestamp,
   setDoc,
   Timestamp,
   where,
@@ -38,7 +39,6 @@ const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
 const actions = {
-  // eslint-disable-next-line consistent-return
   async firebaseSigin() {
     let profile = {};
 
@@ -63,14 +63,11 @@ const actions = {
     await setPersistence(auth, inMemoryPersistence)
       .then(async () => {
         const provider = new GoogleAuthProvider();
-        // In memory persistence will be applied to the signed in Google user
-        // even though the persistence was set to 'none' and a page redirect
-        // occurred.
+
         const response = await signInWithPopup(auth, provider);
         makeUserProfile(response);
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(errorCode, errorMessage);
@@ -79,24 +76,6 @@ const actions = {
     localStorage.setItem('user', JSON.stringify(profile));
 
     return profile;
-
-    /* 
-    
-      else {
-      try {
-        const response = await signInWithPopup(auth, provider);
-        localStorage.setItem('token', JSON.stringify(response));
-        makeUserProfile(response);
-      } catch (error) {
-        profile = {
-          isLoggedIn: false,
-          error,
-        };
-      }
-      return profile;
-    }
-
-    */
   },
   firebaseLogout() {
     signOut(auth)
@@ -122,8 +101,8 @@ const actions = {
 
     const postData = {
       ...data,
-      createdAt: Timestamp.now(),
-      updatedAt: Timestamp.now(),
+      createdAt: serverTimestamp(),
+      updatedAt: Date.now(),
     };
 
     const response = await addDoc(colRef, postData);
@@ -135,9 +114,14 @@ const getters = {
   async getSubreddits() {
     const subredits = [];
     try {
-      const querySnapshot = await getDocs(collection(db, 'subredits'));
-      querySnapshot.forEach((thisDoc) => {
-        subredits.push(thisDoc.data());
+      const q = query(collection(db, 'subredits'), orderBy('name', 'asc'));
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        subredits.push({
+          ...doc.data(),
+          doc_id: doc.id,
+        });
       });
     } catch (error) {
       console.error(error);
