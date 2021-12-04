@@ -15,6 +15,7 @@ import {
   getFirestore,
   orderBy,
   query,
+  serverTimestamp,
   setDoc,
   Timestamp,
   where,
@@ -100,8 +101,8 @@ const actions = {
 
     const postData = {
       ...data,
-      createdAt: Timestamp.now(),
-      updatedAt: Timestamp.now(),
+      createdAt: serverTimestamp(),
+      updatedAt: Date.now(),
     };
 
     const response = await addDoc(colRef, postData);
