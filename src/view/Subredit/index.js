@@ -15,15 +15,16 @@ const Subreddit = ({ state }) => {
   const mounted = useRef(true);
   const [posts, setPosts] = useState([]);
   const [isPostCreateShow, setIsPostCreateShow] = useState(false);
+  const [isShouldBeRender, setIsShouldBeRender] = useState(false);
 
   const onPostToggle = () => setIsPostCreateShow((prev) => !prev);
 
   useEffect(() => {
-    if (mounted.current) {
+    if (mounted.current || isShouldBeRender) {
       (async () => setPosts(await getters.getPosts(subredditName)))();
     }
     return () => (mounted.current = false);
-  }, [subredditName]);
+  }, [subredditName, isShouldBeRender]);
 
   console.log(`posts`, posts);
 
@@ -46,7 +47,12 @@ const Subreddit = ({ state }) => {
           <Row>
             <Col span={18} offset={3}>
               {isPostCreateShow && (
-                <PostCreateForm subredditName={subredditName} user={user} />
+                <PostCreateForm
+                  subredditName={subredditName}
+                  user={user}
+                  isShouldBeRender={isShouldBeRender}
+                  setIsShouldBeRender={setIsShouldBeRender}
+                />
               )}
             </Col>
           </Row>
