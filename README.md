@@ -29,7 +29,10 @@
   - [x] Colorized vote
   - [x] Order by created
   - [x] Order by total score
-- [ ] Add comment to Post
+- [x] Add comment to Post
+  - [ ] Redesign comment area
+  - [ ] Comments on comment
+  - [ ] Vote comment
 - [ ] User Profile
 - [ ] Edit Post
 - [ ] Edit Comment

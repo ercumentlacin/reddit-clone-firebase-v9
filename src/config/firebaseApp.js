@@ -11,6 +11,7 @@ import {
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   getFirestore,
   orderBy,
@@ -145,6 +146,14 @@ const actions = {
     await this.firebasePostUpdate(post_id, newData);
     callbackFn(true);
   },
+  async addComment(data, post_id) {
+    const postRef = doc(db, 'posts', post_id);
+    await updateDoc(postRef, {
+      ...data,
+      updatedAt: Date.now(),
+      createdAt: serverTimestamp(),
+    });
+  },
 };
 
 const getters = {
@@ -187,6 +196,33 @@ const getters = {
       console.error(error);
     }
     return posts;
+  },
+  async getPost(docId) {
+    let post = {
+      error: null,
+      data: {},
+      loading: true,
+    };
+
+    try {
+      const docRef = doc(db, 'posts', docId);
+      const docSnap = await getDoc(docRef);
+      post = {
+        ...post,
+        error: null,
+        data: docSnap.data(),
+        doc_id: docSnap.id,
+        loading: false,
+      };
+    } catch (error) {
+      console.error(error);
+      post = {
+        error,
+        data: {},
+        loading: false,
+      };
+    }
+    return post;
   },
 };
 
