@@ -24,7 +24,7 @@
 - [x] Add less
 - [x] Show Usernames
 - [x] Show User Images
-- [ ] Search/Filter Posts
+- [x] Search/Filter Posts
 - [ ] UpVote/DownVote Posts
   - [x] Order by created
   - [ ] Order by total score
