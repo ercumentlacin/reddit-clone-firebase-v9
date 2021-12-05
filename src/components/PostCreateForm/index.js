@@ -19,6 +19,10 @@ const PostCreateForm = ({ subredditName, user, setIsShouldBeRender }) => {
       description: description || '',
       image: image || '',
       subredditName,
+      votes: {
+        up: [],
+        down: [],
+      },
       author: {
         name: user.displayName,
         id: user.uid,

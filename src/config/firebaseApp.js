@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
@@ -8,7 +9,6 @@ import {
   signOut,
 } from 'firebase/auth';
 import {
-  addDoc,
   collection,
   doc,
   getDocs,
@@ -18,6 +18,7 @@ import {
   serverTimestamp,
   setDoc,
   Timestamp,
+  updateDoc,
   where,
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
@@ -97,16 +98,52 @@ const actions = {
     return response;
   },
   async firebaseAddPost(docName, data) {
-    const colRef = collection(db, docName);
+    const newPostRef = doc(collection(db, 'posts'));
 
     const postData = {
       ...data,
       createdAt: serverTimestamp(),
       updatedAt: Date.now(),
+      id: newPostRef.id,
     };
 
-    const response = await addDoc(colRef, postData);
+    const response = await setDoc(newPostRef, postData);
     return response;
+  },
+  async firebasePostUpdate(post_id, data) {
+    try {
+      const postRef = doc(db, 'posts', post_id);
+      const response = await updateDoc(postRef, {
+        ...data,
+        updatedAt: Date.now(),
+      });
+      return response;
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  },
+  async handlePostVote(post_id, data, key, callbackFn, user) {
+    const isKeyVoted = data.votes[key].some((item) => item === user.uid);
+
+    const newKey = isKeyVoted
+      ? data.votes[key].filter((item) => item !== user.uid)
+      : [...data.votes[key], user.uid];
+
+    const anotherKey = key === 'up' ? 'down' : 'up';
+
+    const newData = {
+      ...data,
+      votes: {
+        ...data.votes,
+        [key]: newKey,
+        [anotherKey]: data.votes[anotherKey].filter(
+          (item) => item !== user.uid
+        ),
+      },
+    };
+
+    await this.firebasePostUpdate(post_id, newData);
+    callbackFn(true);
   },
 };
 

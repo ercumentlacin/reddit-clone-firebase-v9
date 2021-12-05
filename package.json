@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.8.3",
     "antd": "^4.17.2",
     "axios": "^0.21.4",
+    "classnames": "^2.3.1",
     "craco-less": "^1.20.0",
     "firebase": "^9.6.0",
     "prop-types": "^15.7.2",

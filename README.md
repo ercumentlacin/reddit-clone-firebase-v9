@@ -22,12 +22,13 @@
 - [x] Format Dates
 - [x] Add craco
 - [x] Add less
-- [ ] Show Usernames
-- [ ] Show User Images
-- [ ] Search/Filter Posts
-- [ ] UpVote/DownVote Posts
+- [x] Show Usernames
+- [x] Show User Images
+- [x] Search/Filter Posts
+- [x] UpVote/DownVote Posts
+  - [x] Colorized vote
   - [x] Order by created
-  - [ ] Order by total score
+  - [x] Order by total score
 - [ ] Add comment to Post
 - [ ] User Profile
 - [ ] Edit Post
