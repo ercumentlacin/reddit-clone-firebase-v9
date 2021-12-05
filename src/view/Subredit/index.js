@@ -6,7 +6,7 @@ import { Button, Col, Input, List, Row, Typography } from 'antd';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import PostCreateForm from '../../components/PostCreateForm';
 import { actions, getters } from '../../config/firebaseApp';
@@ -19,6 +19,7 @@ const Subreddit = ({ state }) => {
   const { isLoggedIn, user } = state;
   const { subredditName } = useParams();
   const mounted = useRef(true);
+  const history = useHistory();
   const [posts, setPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isPostCreateShow, setIsPostCreateShow] = useState(false);
@@ -133,6 +134,9 @@ const Subreddit = ({ state }) => {
                   xs={{ span: 24, offset: 0 }}
                   lg={{ span: 18, offset: 3 }}
                   className="post-item"
+                  onClick={() =>
+                    history.push(`/r/${subredditName}/comments/${item.id}`)
+                  }
                 >
                   <div className="post-item__left">
                     <span

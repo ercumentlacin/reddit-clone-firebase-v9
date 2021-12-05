@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Navigation from './components/Navigation';
 import Subredits from './components/Subredits';
+import Comments from './view/Comments';
 import Subreddit from './view/Subredit';
 
 const App = () => {
@@ -19,8 +20,11 @@ const App = () => {
         <Route exact path="/">
           <Subredits />
         </Route>
-        <Route path="/r/:subredditName">
+        <Route exact path="/r/:subredditName">
           <Subreddit state={state} />
+        </Route>
+        <Route path="/r/:subredditName/comments/:docId">
+          <Comments state={state} />
         </Route>
       </Switch>
     </BrowserRouter>
