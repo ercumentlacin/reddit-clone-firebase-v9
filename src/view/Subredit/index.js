@@ -59,8 +59,8 @@ const Subreddit = ({ state }) => {
 
   const voteClassNames = (item, type = 'default') =>
     classNames({
-      red: type !== 'down' && item.votes.up.some((v) => v === user.uid),
-      blue: type !== 'up' && item.votes.down.some((v) => v === user.uid),
+      red: type !== 'down' && item.votes.up.some((v) => v === user?.uid),
+      blue: type !== 'up' && item.votes.down.some((v) => v === user?.uid),
     });
 
   return (
