@@ -1,11 +1,15 @@
+/* eslint-disable no-nested-ternary */
+import './subredit.less';
+
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { Button, Col, Input, List, Row, Typography } from 'antd';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import PostCreateForm from '../../components/PostCreateForm';
-import { getters } from '../../config/firebaseApp';
+import { actions, getters } from '../../config/firebaseApp';
 import { emailToNickname, timeDifference } from '../../helper';
 
 const { Paragraph, Text } = Typography;
@@ -53,13 +57,21 @@ const Subreddit = ({ state }) => {
 
   console.log(`posts`, posts);
 
+  const voteClassNames = (item, type = 'default') =>
+    classNames({
+      red: type !== 'down' && item.votes.up.some((v) => v === user.uid),
+      blue: type !== 'up' && item.votes.down.some((v) => v === user.uid),
+    });
+
   return (
-    <section>
+    <section className="subreddit-page-container">
       <Row>
         <Col xs={{ span: 18, offset: 3 }}>
           <h1>{subredditName}</h1>
         </Col>
       </Row>
+
+      {/* create post button */}
       {isLoggedIn && (
         <>
           <Row>
@@ -94,6 +106,7 @@ const Subreddit = ({ state }) => {
           </Row>
         </>
       )}
+
       <Row>
         {/* searchbox */}
         <Col
@@ -121,29 +134,66 @@ const Subreddit = ({ state }) => {
                   lg={{ span: 18, offset: 3 }}
                   className="post-item"
                 >
-                  <Text type="secondary">
-                    Posted byu/{emailToNickname(item?.author?.email)}{' '}
-                    <span className="post-time">
-                      {timeDifference(item.createdAt)}
+                  <div className="post-item__left">
+                    <span
+                      className={`up ${voteClassNames(item, 'up')}`}
+                      onClick={() =>
+                        actions.handlePostVote(
+                          item.id,
+                          item,
+                          'up',
+                          setIsShouldBeRender,
+                          user
+                        )
+                      }
+                      aria-hidden="true"
+                    >
+                      <CaretUpOutlined />
                     </span>
-                  </Text>
-                  <br />
-                  <Text strong>{item.title}</Text>
-                  <Paragraph
-                    ellipsis={{
-                      rows: 2,
-                      expandable: true,
-                    }}
-                  >
-                    {item.description}
-                  </Paragraph>
-                  {!!item.image && (
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="post-image"
-                    />
-                  )}
+                    <span className={`vote ${voteClassNames(item)}`}>
+                      {item.votes.up.length - item.votes.down.length}
+                    </span>
+                    <span
+                      className={`down ${voteClassNames(item, 'down')}`}
+                      onClick={() =>
+                        actions.handlePostVote(
+                          item.id,
+                          item,
+                          'down',
+                          setIsShouldBeRender,
+                          user
+                        )
+                      }
+                      aria-hidden="true"
+                    >
+                      <CaretDownOutlined />
+                    </span>
+                  </div>
+                  <div className="post-item__right">
+                    <Text type="secondary">
+                      Posted byu/{emailToNickname(item?.author?.email)}{' '}
+                      <span className="post-time">
+                        {timeDifference(item.createdAt)}
+                      </span>
+                    </Text>
+                    <br />
+                    <Text strong>{item.title}</Text>
+                    <Paragraph
+                      ellipsis={{
+                        rows: 2,
+                        expandable: true,
+                      }}
+                    >
+                      {item.description}
+                    </Paragraph>
+                    {!!item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="post-image"
+                      />
+                    )}
+                  </div>
                 </Col>
               </Row>
             )}

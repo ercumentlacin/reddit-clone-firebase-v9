@@ -25,9 +25,10 @@
 - [x] Show Usernames
 - [x] Show User Images
 - [x] Search/Filter Posts
-- [ ] UpVote/DownVote Posts
+- [x] UpVote/DownVote Posts
+  - [x] Colorized vote
   - [x] Order by created
-  - [ ] Order by total score
+  - [x] Order by total score
 - [ ] Add comment to Post
 - [ ] User Profile
 - [ ] Edit Post
