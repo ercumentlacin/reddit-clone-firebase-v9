@@ -148,11 +148,7 @@ const actions = {
   },
   async addComment(data, post_id) {
     const postRef = doc(db, 'posts', post_id);
-    await updateDoc(postRef, {
-      ...data,
-      updatedAt: Date.now(),
-      createdAt: serverTimestamp(),
-    });
+    await updateDoc(postRef, data);
   },
 };
 
