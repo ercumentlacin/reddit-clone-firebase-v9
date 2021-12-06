@@ -1,3 +1,5 @@
+@import '../../less/variables.less';
+
 .subreddit-page-container {
   .post-row {
     margin: 1rem;
@@ -5,18 +7,19 @@
     .post-item {
       cursor: pointer;
       transition: all 0.2s ease-in-out;
-      border: 1px solid #ccc;
+      border: 1px solid @accent-color;
       padding: 0.5rem;
       border-radius: 0.5rem;
       display: flex;
       flex-direction: row;
       overflow: hidden;
+      background: @card-color;
 
       &__left {
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: hsl(0, 0%, 95%);
+        background-color: lighten(@card-color, 10%);
         margin: -0.5rem;
         margin-right: 0.5rem;
         padding: 0.5rem;
@@ -52,7 +55,7 @@
       }
 
       &:hover {
-        border-color: #111;
+        border-color: lighten(@accent-color, 20%);
       }
     }
   }

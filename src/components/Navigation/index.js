@@ -49,7 +49,7 @@ const Navigation = ({ state, setState }) => {
   return (
     <Row
       align="middle"
-      style={{ backgroundColor: '#001529', overflowX: 'auto' }}
+      style={{ backgroundColor: 'hsl(155, 10%, 15%)', overflowX: 'auto' }}
     >
       <Col
         className="top-menu"

@@ -1,8 +1,17 @@
 @import '~antd/dist/antd.less';
 
+body {
+  background-color: @background-color;
+  color: @secondary-text;
+}
+
 .center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.ant-divider-horizontal.ant-divider-with-text {
+  color: @primary-text;
 }

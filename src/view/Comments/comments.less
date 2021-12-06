@@ -1,3 +1,5 @@
+@import '../../less/variables.less';
+
 .comments-view {
   .title-section {
     display: flex;
@@ -7,6 +9,27 @@
 
     h3 {
       margin: 0;
+    }
+  }
+
+  .comments-wrapper {
+    background-color: @card-color;
+  }
+
+  .comment-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.5rem;
+    padding-inline: 0.5rem;
+    margin-block: 0.5rem;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid @accent-color;
+    }
+
+    .comment-text {
+      margin-block: 0.5rem;
     }
   }
 }

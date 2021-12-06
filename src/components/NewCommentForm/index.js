@@ -29,6 +29,8 @@ const NewCommentForm = ({ user, setIsShouldBeRender, id, data }) => {
             avatar: user.photoURL,
             email: user.email,
             docId: id,
+            updatedAt: Date.now(),
+            createdAt: { seconds: Math.floor(Date.now() / 1000) },
           },
         ],
       },

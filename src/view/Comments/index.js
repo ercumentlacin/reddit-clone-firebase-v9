@@ -75,20 +75,24 @@ const Comments = ({ state: AppState }) => {
           )}
         </Col>
 
-        <Col xs={{ span: 24, offset: 0 }} lg={{ span: 18, offset: 3 }}>
+        <Col
+          className="comments-wrapper"
+          xs={{ span: 22, offset: 1 }}
+          md={{ span: 18, offset: 3 }}
+        >
           <List
             dataSource={postState.data.comments}
             renderItem={(item) => (
-              <Row key={item.id} className="post-row">
+              <Row key={item.id} className="comment-row">
                 <Col
                   xs={{ span: 24, offset: 0 }}
                   lg={{ span: 18, offset: 3 }}
-                  className="post-item"
+                  className="comment-item"
                 >
-                  <div className="post-item__right">
+                  <div className="comment-item__right">
                     <Text type="secondary">
-                      Posted byu/{emailToNickname(item.name)}{' '}
-                      <span className="post-time">
+                      Posted byu/{emailToNickname(item.email)}{' '}
+                      <span className="comment-time">
                         {!!item.createdAt && timeDifference(item.createdAt)}
                       </span>
                     </Text>
@@ -106,7 +110,7 @@ const Comments = ({ state: AppState }) => {
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="post-image"
+                        className="comment-image"
                       />
                     )}
                   </div>
