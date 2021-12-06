@@ -141,15 +141,16 @@ const Subreddit = ({ state }) => {
                   <div className="post-item__left">
                     <span
                       className={`up ${voteClassNames(item, 'up')}`}
-                      onClick={() =>
+                      onClick={(e) => {
+                        e.stopPropagation();
                         actions.handlePostVote(
                           item.id,
                           item,
                           'up',
                           setIsShouldBeRender,
                           user
-                        )
-                      }
+                        );
+                      }}
                       aria-hidden="true"
                     >
                       <CaretUpOutlined />
@@ -159,15 +160,16 @@ const Subreddit = ({ state }) => {
                     </span>
                     <span
                       className={`down ${voteClassNames(item, 'down')}`}
-                      onClick={() =>
+                      onClick={(e) => {
+                        e.stopPropagation();
                         actions.handlePostVote(
                           item.id,
                           item,
                           'down',
                           setIsShouldBeRender,
                           user
-                        )
-                      }
+                        );
+                      }}
                       aria-hidden="true"
                     >
                       <CaretDownOutlined />
