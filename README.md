@@ -32,7 +32,7 @@
 - [x] Add dark mode
 - [x] Add comment to Post
   - [x] Display post created time
-  - [ ] Order by created
+  - [x] Order by created
   - [ ] Redesign comment area
   - [ ] Comments on comment
   - [ ] Vote comment
