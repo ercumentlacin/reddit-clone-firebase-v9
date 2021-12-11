@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Navigation from './components/Navigation';
 import Subredits from './components/Subredits';
-import Comments from './view/Comments';
-import Subreddit from './view/Subredit';
+import Comments from './pages/Comments';
+import Subreddit from './pages/Subredit';
 
 const App = () => {
   const [state, setState] = useState({
