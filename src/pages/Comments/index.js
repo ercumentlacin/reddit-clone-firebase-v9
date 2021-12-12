@@ -62,7 +62,7 @@ const Comments = ({ state: AppState }) => {
   return (
     <section className="comments-view">
       <Row>
-        <Col md={{ span: 18, offset: 3 }}>
+        <Col xs={{ span: 22, offset: 1 }} md={{ span: 18, offset: 3 }}>
           <div className="title-section">
             <Title level={3}>{postState.data.title}</Title>
             <Button onClick={history.goBack} icon={<CloseOutlined />}>
@@ -71,14 +71,14 @@ const Comments = ({ state: AppState }) => {
           </div>
         </Col>
 
-        <Col md={{ span: 18, offset: 3 }}>
+        <Col xs={{ span: 22, offset: 1 }} md={{ span: 18, offset: 3 }}>
           <p>{postState.data?.description}</p>
           {postState.data?.image && (
             <img src={postState.data.image} alt={postState.data.title} />
           )}
         </Col>
 
-        <Col md={{ span: 18, offset: 3 }}>
+        <Col xs={{ span: 22, offset: 1 }} md={{ span: 18, offset: 3 }}>
           {isLoggedIn && (
             <NewCommentForm
               user={user}
@@ -102,11 +102,7 @@ const Comments = ({ state: AppState }) => {
             header={<ListHeader setKey={setKey} />}
             renderItem={(item) => (
               <Row key={item.id} className="comment-row">
-                <Col
-                  xs={{ span: 24, offset: 0 }}
-                  lg={{ span: 18, offset: 3 }}
-                  className="comment-item"
-                >
+                <Col xs={{ span: 22, offset: 1 }} className="comment-item">
                   <div className="comment-item__right">
                     <Text type="secondary">
                       Posted byu/{emailToNickname(item.email)}{' '}
