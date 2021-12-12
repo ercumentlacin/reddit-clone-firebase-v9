@@ -7,40 +7,51 @@ import { useEffect, useRef, useState } from 'react';
 const { Option } = Select;
 const ListHeader = ({ setKey }) => {
   const [open, setOpen] = useState(false);
+  const [isShouldBeRender, setIsShouldBeRender] = useState(false);
+  const contentRef = useRef(null);
+  const selectRef = useRef(null);
 
-  const handleClick = () => setOpen((prev) => !prev);
   const handleChange = (value) => {
+    console.log('tiklandi');
     setKey(value);
-    handleClick();
   };
 
-  const contentRef = useRef(null);
+  const handleClick = (event) => {
+    if (contentRef.current?.contains(event.target)) {
+      setOpen(true);
+      setIsShouldBeRender(true);
+    } else {
+      setOpen(false);
+      setIsShouldBeRender(true);
+    }
+  };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (contentRef.current && !contentRef.current.contains(event.target)) {
-        handleClick();
-      }
-    };
+    window.addEventListener('click', handleClick);
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+    return () => window.removeEventListener('click', handleClick);
+  }, [open]);
+
+  useEffect(() => {
+    if (isShouldBeRender) {
+      setIsShouldBeRender(false);
+    }
+  }, [isShouldBeRender]);
+
+  console.log(`open`, open);
 
   return (
     <div ref={contentRef} className="list-header">
-      <Typography.Link onClick={handleClick}>Sort By</Typography.Link>
+      <Typography.Link>Sort By</Typography.Link>
 
       <Select
         bordered={false}
-        open={open}
         defaultValue="old"
         title="Sort by"
         style={{ width: 120 }}
         onChange={handleChange}
-        onClick={handleClick}
+        ref={selectRef}
+        open={open}
         dropdownClassName="list-header__dropdown"
       >
         <Option value="top">Top</Option>
