@@ -11,10 +11,7 @@ const ListHeader = ({ setKey }) => {
   const contentRef = useRef(null);
   const selectRef = useRef(null);
 
-  const handleChange = (value) => {
-    console.log('tiklandi');
-    setKey(value);
-  };
+  const handleChange = (value) => setKey(value);
 
   const handleClick = (event) => {
     if (contentRef.current?.contains(event.target)) {
