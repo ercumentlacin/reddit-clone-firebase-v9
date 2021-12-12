@@ -33,7 +33,7 @@
 - [x] Add comment to Post
   - [x] Display post created time
   - [x] Order by created
-  - [ ] Redesign comment area
+  - [x] Redesign comment area
   - [ ] Comments on comment
   - [ ] Vote comment
 - [ ] User Profile
