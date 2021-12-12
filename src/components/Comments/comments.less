@@ -1,0 +1,23 @@
+@import '@/less/variables.less';
+
+.list-header {
+  margin-inline-start: 1rem;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+
+  &__dropdown {
+    background-color: @background-color;
+
+    .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+      background-color: @cta-color;
+      color: @background-color;
+    }
+
+    .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+      background-color: @cta-color;
+      color: @background-color;
+    }
+  }
+}

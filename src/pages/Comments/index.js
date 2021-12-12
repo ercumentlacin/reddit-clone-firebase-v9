@@ -3,10 +3,12 @@ import './comments.less';
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Col, List, Row, Spin, Typography } from 'antd';
 import PropTypes from 'prop-types';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import NewCommentForm from '../../components/NewCommentForm';
+import ListHeader from '@/components/Comments/ListHeader';
+import NewCommentForm from '@/components/NewCommentForm';
+
 import { getters } from '../../config/firebaseApp';
 import { emailToNickname, timeDifference } from '../../helper';
 
@@ -21,6 +23,7 @@ const Comments = ({ state: AppState }) => {
   });
   const { isLoggedIn, user } = AppState;
   const [isShouldBeRender, setIsShouldBeRender] = useState(false);
+  const [key, setKey] = useState('old');
   const mounted = useRef(true);
   const history = useHistory();
 
@@ -32,6 +35,18 @@ const Comments = ({ state: AppState }) => {
 
     return () => (mounted.current = false);
   }, [docId, isShouldBeRender]);
+
+  const memoSortByTime = useCallback(
+    (a, b, _key = key) => {
+      const choices = {
+        old: () => a?.createdAt?.seconds - b?.createdAt?.seconds,
+        top: () => b?.createdAt?.seconds - a?.createdAt?.seconds,
+      };
+
+      return choices[_key](a, b);
+    },
+    [key]
+  );
 
   if (
     postState.error !== null &&
@@ -81,7 +96,10 @@ const Comments = ({ state: AppState }) => {
           md={{ span: 18, offset: 3 }}
         >
           <List
-            dataSource={postState.data.comments}
+            dataSource={postState.data.comments?.sort((a, b, _key = key) =>
+              memoSortByTime(a, b, _key)
+            )}
+            header={<ListHeader setKey={setKey} />}
             renderItem={(item) => (
               <Row key={item.id} className="comment-row">
                 <Col

@@ -3,7 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["react-app", "airbnb", "prettier"],
+  "extends": ["react-app", "airbnb", "prettier", "plugin:import/recommended"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -11,7 +11,13 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "prettier", "simple-import-sort", "react-hooks"],
+  "plugins": [
+    "react",
+    "prettier",
+    "simple-import-sort",
+    "react-hooks",
+    "import"
+  ],
   "settings": {
     "import/resolver": {
       "node": {
@@ -40,6 +46,8 @@
     "no-debugger": "off",
     "no-shadow": "off",
     "no-underscore-dangle": "off",
-    "no-return-assign": "off"
+    "no-return-assign": "off",
+    "import/no-unresolved": "off",
+    "import/extensions": 0
   }
 }
