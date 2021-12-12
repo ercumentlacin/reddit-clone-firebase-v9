@@ -1,4 +1,4 @@
-import { Button, Divider, List } from 'antd';
+import { Button, Col, Divider, List, Row } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -24,24 +24,28 @@ const Subredits = () => {
   return (
     <>
       <Divider orientation="left">Subredits</Divider>
-      <List
-        bordered
-        loading={subreditsModel.length === 0}
-        dataSource={subreditsModel}
-        rowKey={(record) => record._id}
-        renderItem={(item) => (
-          <List.Item>
-            <Button
-              type="link"
-              block
-              onClick={() => history.push(`/r${item.slug}`)}
-              style={{ textAlign: 'left' }}
-            >
-              {item.name}
-            </Button>
-          </List.Item>
-        )}
-      />
+      <Row>
+        <Col xs={{ span: 24, offset: 0 }} lg={{ span: 22, offset: 1 }}>
+          <List
+            bordered
+            loading={subreditsModel.length === 0}
+            dataSource={subreditsModel}
+            rowKey={(record) => record._id}
+            renderItem={(item) => (
+              <List.Item>
+                <Button
+                  type="link"
+                  block
+                  onClick={() => history.push(`/r${item.slug}`)}
+                  style={{ textAlign: 'left' }}
+                >
+                  {item.name}
+                </Button>
+              </List.Item>
+            )}
+          />
+        </Col>
+      </Row>
     </>
   );
 };
